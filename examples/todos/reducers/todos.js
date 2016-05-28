@@ -1,37 +1,28 @@
-const todo = (state, action) => {
+const todos = (state = {
+  list: [],
+  isFetching: false
+}, action = null) => {
   switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      }
-    case 'TOGGLE_TODO':
-      if (state.id !== action.id) {
-        return state
-      }
-
-      return Object.assign({}, state, {
-        completed: !state.completed
-      })
-    default:
+    case 'GET_TODOS': {
       return state
-  }
-}
+    }
+    case 'ADD_TODO': {
+      state = Object.assign({}, state)
 
-const todos = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return [
-        ...state,
-        todo(undefined, action)
-      ]
-    case 'TOGGLE_TODO':
-      return state.map(t =>
-        todo(t, action)
-      )
-    default:
+      state.list = [...state.list, action.todo]
+
       return state
+    }
+    case 'TOGGLE_TODO': {
+      state = Object.assign({}, state)
+
+      state.list = state.list.map(item=> Object.assign({}, item))
+
+      state.list[action.todoId].completed = !state.list[action.todoId].completed
+
+      return state
+    }
+    default: return state
   }
 }
 
