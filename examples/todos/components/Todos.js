@@ -4,13 +4,13 @@ import TodoContainer from '../containers/TodoContainer'
 
 const Todos = ({todos}) => {
 
-  return (
+  return todos.isFetching ?
+    <span>Loading...</span> :
     <ul>
       {todos.list.map(todo => {
         return <TodoContainer todo={todo} key={todo.id}/>
       })}
     </ul>
-  )
 }
 
 Todos.propTypes =  {
